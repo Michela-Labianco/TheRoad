@@ -1,0 +1,713 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "Vollkorn", serif;
+    list-style-type: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    outline: none;
+}
+
+html{
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+}
+
+/* to create a couple of CSS variables for the colors that we're going to use.
+We will use five different colors and instead of specifying them each time,
+we will store them in the variables and then use those variables.
+So we need to use the variables on the global scope. Therefore, let's select a root.*/
+:root{
+    --primary-color: #2b81e4;
+    --secondary-color: #eee;
+    --white-color: #fff;
+    --grey-color: #646363;
+    --light-color: #8e8d8d;
+}
+
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container{
+    background-color: var(--secondary-color);
+    margin: 3.5rem;
+    box-shadow: 0 1rem 3rem var(--grey-color);
+    overflow: hidden; /*to remove the scroll bars*/
+}
+
+.navbar-icon{
+    width: 5rem;
+    height: 5rem;
+    background-color: var(--white-color);
+    border-radius: 50%;
+    cursor: pointer;
+    flex-direction: column;
+}
+.open-navbar-icon{
+    position: fixed;
+    top: 6.5rem;
+    left: 6.5rem;
+    z-index: 200;
+}
+.navbar-icon .line{
+    width: 3.5rem;
+    height: 0.2rem;
+    background-color: var(--primary-color);
+}
+.open-navbar-icon .line{
+    margin: 0.3rem 0;
+    border-radius: 0.2rem;
+}
+.navbar-wrapper{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.8);
+    position: fixed;
+    left: 0;
+    bottom: -100%; /*to hide it*/
+    opacity: 0; /*to hide it*/
+    z-index: 300;
+    padding: 3.5rem;
+    transition: bottom 0.5s, opacity 0.2s;
+}
+.change .navbar-wrapper{ /*to display it back*/
+    bottom: 0;
+    opacity: 1;
+    transition: bottom 0.5s, opacity 0.2s 0.25s /*here with delay*/;
+}
+
+.navbar{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url(/images/navbar-bg.jpg) center no-repeat;
+    background-size: cover;
+    position: relative;
+    overflow-y: hidden; /* to make the items hidden while they are placed up (according to the y direction) */
+}
+.close-navbar-icon{
+    position: absolute; /*so they are in the "center"*/
+    top: 2.5rem;
+    right: 3rem;
+    z-index: 300; /*so the opacity doesn't affect the button*/
+}
+.close-navbar-icon .line{
+    position: absolute;
+}
+.line-1{
+    transform: rotate(40deg);
+}
+.line-2{
+    transform: rotate(-40deg);
+}
+
+.nav-list{
+    height: 100%; /*so they expand all the way to the bottom of the nav bar */
+    display: flex;
+}
+
+.nav-link{
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--white-color);
+    text-transform: uppercase;
+    width: 100%;
+    opacity: 0.8;
+
+    /*to place the navigation items up because 
+    once we click the menu icon, they should move from top to bottom */
+    position: relative;
+    top: -100%; 
+
+    transition: all 0.3s;
+}
+.change .nav-link{
+    top: 0; /*links are placed above and we need to make their top position 0 */
+}
+.nav-link:hover{
+    opacity: 1;
+    color: var(--grey-color);
+}
+/*to display the navigation items in order with some delays */
+.change .nav-link:nth-child(1){
+    transition: top 1s 0.4s, opacity 0.3s, color 0.3s;
+}
+.change .nav-link:nth-child(2){
+    transition: top 1s 0.6s, opacity 0.3s, color 0.3s;
+}
+.change .nav-link:nth-child(3){
+    transition: top 1s 0.8s, opacity 0.3s, color 0.3s;
+}
+.change .nav-link:nth-child(4){
+    transition: top 1s 1s, opacity 0.3s, color 0.3s;
+}
+.change .nav-link:nth-child(5){
+    transition: top 1s 1.2s, opacity 0.3s, color 0.3s;
+}
+
+.header{
+    width: 100%;
+    height: calc(100vh - 7rem); /*7 is the sum of the space at the top and bottom */
+    background: linear-gradient(rgba(84, 148, 244, 0.2), rgba(18, 113, 255, 0.3)), url(/images/header-bg.jpg) center no-repeat;
+    background-size: cover;
+    position: relative;
+    perspective: 100rem; /*for the 3D environment (animation) */
+}
+.header-text{
+    text-align: center; /*inside the box*/
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+}
+.heading{
+    font-size: 5rem;
+    color: var(--white-color);
+    text-shadow: -0.2rem -0.3rem 0.6rem #e5bd2f;
+}
+.header-prgh{
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--white-color);
+    max-width: 70rem;
+    margin: auto; /*to center the text*/
+}
+.logo{
+    position: absolute;
+    top: 4rem;
+    right: 4rem;
+}
+.logo h1{ /*parent element for the spans*/
+    display: flex; /*to display them vertically*/
+}
+.logo h1 span{
+    font-size: 2rem;
+    font-weight: 500;
+    font-family: monospace;
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    width: 3.5rem;
+    height: 3.5rem;
+    /*not applied because span is an inline element*/
+    /* display: block; no lonegr needed it because the span elements are now flex items*/
+    border-radius: 50%;
+    margin-right: 1.5rem;
+}
+/*different delay times*/
+.logo h1 span:nth-child(1){
+    /* animation-name: dropSpans;
+    animation-duration: 5s;
+    animation-delay: 0.1s;
+    animation-iteration-count: infinite; */
+    animation: dropSpans 5s 0.1s infinite;
+}
+.logo h1 span:nth-child(2){
+    animation: dropSpans 5s 0.2s infinite;
+
+}
+.logo h1 span:nth-child(3){
+    animation: dropSpans 5s 0.3s infinite;
+}
+.logo h1 span:nth-child(4){
+    animation: dropSpans 5s 0.4s infinite;
+}
+.logo h1 span:nth-child(5){
+    animation: dropSpans 5s 0.5s infinite;
+}
+.logo h1 span:nth-child(6){
+    animation: dropSpans 5s 0.6s infinite;
+}
+.logo h1 span:nth-child(7){
+    animation: dropSpans 5s 0.7s infinite;
+}
+
+/*animation*/
+@keyframes dropSpans {
+    0%{
+        transform: translateY(0); /*no need to move them*/
+    }
+    10%{
+        transform: translateY(0);
+    }
+    15%{
+        transform: translateY(-100%); /*they'll move up*/
+    }
+    20%{
+        transform: translateY(0); /*they are back to their positions*/
+    }
+    100%{
+        transform: translateY(0); /*so they stay in their positions*/
+    }
+}
+
+.header-img{
+    width: 35%;
+    animation: baloonAnimation 150s infinite;
+}
+@keyframes baloonAnimation {
+    0%{
+        transform: translateZ(40rem); /*to move it along the z-axis in 3D space*/
+        opacity: 1;
+    }
+    40%{
+        transform: translateZ(-500rem) translateX(150rem) /*translateX so it moves to the right side,
+        we need this because the baloon moves to the center of the image by default*/;
+        opacity: 0.8;
+    }
+    70%{ /*deeeper inside the image*/
+        transform: translateZ(-1500rem) translateX(800rem); /*800rem to change the direction of the baloon explicity at the same time*/
+        opacity: 0.6;
+    }
+    80%{ /*closer*/
+        transform: translateZ(-50rem) translateX(100rem);
+        opacity: 0.8;
+    }
+    100%{
+        transform: translateZ(40rem);
+        opacity: 1;    
+    }
+}
+
+.tours{
+    padding: 5rem 0 10rem 0;
+}
+.tours-heading{
+    font-size: 8rem;
+    text-align: center;
+    margin-bottom: 5rem;
+    color: var(--primary-color);
+    font-weight: 300;
+    text-shadow: -0.2rem -0.3rem 0.6rem var(--light-color);
+}
+
+.card-wrapper{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%; /*to obtain the space between the cards*/
+}
+.card{
+    width: 35rem;
+    position: relative; /*parent of back-side*/
+    perspective: 150rem;
+}
+/*so the cards have the same sizes*/
+.img-card{
+    width: 100%;
+    border-radius: 0.3rem 0.3rem 0 0;
+}
+.front-side{
+    text-align: center;
+    background-color: var(--white-color);
+    border-radius: 0.3rem;
+    position: relative;
+    z-index: 10;
+    opacity: 0.9;
+    transition: opacity 0.5s, transform 0.5s, box-shadow 0.5s;
+    /*we don't use "all" because it would include the index as well, 
+    and it would break the effect */
+}
+
+/* > is a CSS combinator called child selector
+the child selector selects all elements that are the children of a specified element*/
+.change > .front-side{
+    /* check back-side */
+    transform: translateZ(-5rem) translateX(3rem);
+    box-shadow: 2rem 3rem 4rem var(--light-color);
+    opacity: 0;
+    z-index: 0;
+}
+.tour-name{
+    font-size: 2.3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    position: absolute;
+    top: 30%;
+    right: 1.5rem;
+    color: var(--white-color);
+    text-shadow: -0.3rem 0.3rem 0.2rem #000;
+}
+.card-list{
+    width: 80%;
+    margin: auto; /*to center it*/
+    padding: 2rem 0 3rem 0;
+}
+.card-list-item{
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--light-color);
+    margin: 2rem 0;
+    border-bottom: 0.2rem solid var(--primary-color);
+    padding-bottom: 1.5rem;
+}
+
+.back-side{
+    position: absolute;
+    top: 0;
+    background-color: var(--primary-color);
+    width: 100%;
+    height: 100%;
+    border-radius: 0.3rem;
+    box-shadow: 2rem 3rem 4rem var(--light-color);
+    flex-direction: column;
+    transform: translateZ(-5rem) translateX(3rem);
+    opacity: 0.5;
+    transition: opacity 0.5s, transform 0.5s, box-shadow 0.5s;
+}
+.change > .back-side{
+    /* check back-side */
+    transform: translateZ(0) translateX(0);
+    box-shadow: 0.5 0.5 2rem var(--secondary-color);
+    opacity: 0.9;
+}
+.card-btn{
+    border: none;
+    background-color: var(--white-color);
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    font-weight: 300;
+    padding: 1rem;
+    letter-spacing: 0.2rem;
+    border-radius: 3rem;
+    cursor: pointer;
+}
+.navigation-btn{
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: var(--light-color);
+    border-radius: 0.3rem;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.navigation-btn:hover{
+    background-color: rgba(255, 255, 255);
+    color: var(--grey-color);
+}
+.tour-prices{
+    font-size: 5rem;
+    font-weight: 300;
+    color: var(--white-color);
+    margin: 3rem 0;
+}
+.stories{
+    padding: 10rem 0;
+    position: relative;
+}
+.video-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+}
+/* in order to maintain the quality of the video.
+
+I mean, to avoid stretching it or things like that, we have to use the following styles.*/
+.bg-video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.story-wrapper{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.story-bg{
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 5rem;
+    margin: 5rem;
+    width: 70%;
+    box-shadow: 2rem 2rem 3rem var(--light-color);
+    transform: skewX(20deg);
+}
+/*The content of the story is skewed as well, so in order to fix that, 
+we can skew the story itself back by the same degree*/
+.story{
+    transform: skewX(-20deg);
+    display: flex;
+}
+.story-img{
+    width: 18rem;
+    height: 18rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 3rem;
+}
+.story-txt{
+    letter-spacing: 0.1rem;
+    margin-top: 2.5rem;
+}
+
+.story-heading{
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    color: var(--grey-color);
+    margin-bottom: 1rem;
+}
+.story-prgh{
+    font-size: 1.7rem;
+    color: var(--light-color);
+}
+.story-prgh::first-letter{
+    font-size: 2rem;
+    font-weight: 600;
+    margin-left: 1rem;
+}
+
+.contact-us{
+    padding: 15em 0 20rem 0;
+    text-align: center;
+    background: url(/images/contact-us-bg.png) center no-repeat;
+    background-size: cover;
+    animation: bckg-color 35s infinite;
+}
+
+.contact-heading{
+    font-size: 7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5rem;
+    color: var(--white-color);
+    text-shadow: -0.30rem -0.20rem 0.90rem #000;
+    margin-bottom: 10rem;
+}
+.contact-form{
+    width: 70rem;
+    height: 50rem;
+    background-color: rgba(255, 255, 255, 0.95);
+    margin: auto; /*to center it in the middle*/
+    flex-direction: column;
+    border-radius: 0.5rem;
+    box-shadow: -2rem 2rem 10rem #000;
+    padding: 5rem;
+}
+.input-group{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+    position: relative;
+}
+.input-groups{
+    width: 100%;
+    display: flex; /*to place them next to each other */
+    justify-content: space-between;
+}
+.input-groups .input-group{
+    width: 48%;
+}
+.input-group input,
+.input-group textarea{
+    padding: 4rem 1rem 1rem 1rem;
+    background-color: var(--secondary-color);
+    border: 0.1rem solid var(--white-color);
+    font-size: 1.4rem;
+    color: var(--light-color);
+    letter-spacing: 0.1rem;
+    border-radius: 0.5rem;
+    transition: border 0.5s;
+}
+.input-group input:focus,
+.input-group textarea:focus{
+    border: 0.1rem solid #848181;
+}
+.input-group label{
+    position: absolute;
+    text-transform: uppercase;
+    top: 1rem;
+    left: 2rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--grey-color);
+}
+.form-btn{
+    margin-top: 2rem;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    background-color: var(--light-color);
+    color: var(--white-color);
+    cursor: pointer;
+    border: none;
+    border-radius: 0.5rem;
+    transition: all 0.5s;
+}
+.form-btn:hover{
+    background-color: var(--grey-color);
+}
+.input-group textarea{
+    max-width: 100%;
+    max-height: 15rem;
+}
+
+@keyframes bckg-color{
+    0%{
+        background-color: #3d3d3d;
+    }
+    25%{
+        background-color: #ced8e4;
+    }
+    50%{
+        background-color: #1e81f3;
+    }
+    75%{
+        background-color: #ff7842;
+    }
+    100%{
+        background-color: #3d3d3d;
+    }
+}
+
+.footer{
+    background-color: var(--grey-color);
+    padding: 4rem 0 2rem 0;
+}
+.items{
+    display: flex;
+    justify-content: center;
+}
+
+.item{
+    color: var(--white-color);
+    font-size: 2rem;
+    background-color: var(--grey-color);
+    font-weight: lighter;
+    margin: 0 2rem;
+    letter-spacing: 0.3rem;
+    padding: 0.3rem 3rem;
+    transition: all 0.2s;
+}
+.item:hover{
+    transform: rotate(-10deg);
+    box-shadow: 0 2rem 3rem #000;
+}
+.copyright{
+    text-align: center;
+    font-size: 1.6rem;
+    color: var(--secondary-color);
+    margin-top: 3rem;
+    font-weight: 300;
+    font-family: cursive;
+    letter-spacing: 0.2rem;
+}
+
+@media (max-width: 1250px) {
+    .card-wrapper{
+        flex-direction: column;
+        align-items: center;
+    }
+    .card{
+        margin-bottom: 6rem;
+    }
+    .story-bg{
+        width: 80%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .nav-list{
+        flex-direction: column;
+    }
+    .nav-link{
+        flex-grow: 1; /* so flex items can take up the available space inside the container */
+    }
+    .header-text{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+    }
+    .heading{
+        font-size: 4rem;
+    }
+    .header-prgh{
+        font-size: 1.5rem;
+    }
+    .tours-heading{
+        font-size: 6rem;
+    }
+    .story-bg{
+        transform: skewX(0);
+        width: 85%;
+    }
+    .story{
+        transform: skewX(0);
+        flex-direction: column;
+        align-items: center;
+    }
+    .story-img{
+        margin-bottom: 2rem;
+    }
+    .item{
+        font-size: 1.7rem;
+        margin: 0 1.5rem;
+        padding: 0.3rem 2rem;
+    }
+    .copyright{
+        font-size: 1.4rem;
+    }
+}
+@media (max-width: 800px){
+    .header-prgh{
+        display: none;
+    }
+    .heading{
+        font-size: 6rem;
+    }
+    .tours-heading{
+        font-size: 5rem;
+    }
+    .contact-form{
+        width: 90%;
+    }
+    .items{
+        flex-direction: column;
+        align-items: center;
+    }
+    .item{
+        margin: 1rem 0;
+    }
+}
+@media (max-width: 650px){
+    .container{
+        margin: 0;
+    }
+    .open-navbar-icon{
+        top: 2.5rem;
+        left: 2.5rem;
+    }
+    .navbar-wrapper{
+        padding: 0;
+    }
+    .close-navbar-icon{
+        right: 4rem;
+    }
+    .header{
+        height: 100vh;
+    }
+    .tours-heading,
+    .contact-heading{
+        font-size: 4rem;
+    }
+    .contact-form{
+        padding: 2rem;
+        height: 40rem;
+    }
+}
+@media (max-width: 400px){
+    html{
+        font-size: 45%; /*so it will decrease the size of the HTML element.*/
+    }
+}
