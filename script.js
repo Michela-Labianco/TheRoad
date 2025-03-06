@@ -1,4 +1,4 @@
-document.querySelectorAll('.nav-link, .item, .form-btn')
+document.querySelectorAll('.nav-link, .item-2, .item-3, .item-4, .form-btn')
 .forEach(control => { //forEach takes one argument
     control.addEventListener('click', (e) => { //e = event object
         e.preventDefault()
